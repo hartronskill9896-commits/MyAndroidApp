@@ -1,3 +1,4 @@
+
 name: Build Android APK
 
 on:
@@ -24,15 +25,17 @@ jobs:
             libffi-dev libssl-dev cmake
 
       - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Buildozer
         run: |
-          python3 -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install buildozer cython==0.29.33
 
       - name: Build APK
         run: |
-          source venv/bin/activate
           buildozer android debug
 
       - name: Upload APK
